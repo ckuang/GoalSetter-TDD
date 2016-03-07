@@ -1,9 +1,17 @@
 <h1>Home</h1>
 
 <ul>
-<% @goals.each do |goal| %>
+<% @goals.try(:each) do |goal| %>
   <li>
-    <%= link_to goal.title, goal_url(goal) %>
+    <% unless goal.user_id != current_user.id && !goal.visibility %>
+      <%= link_to goal.title, goal_url(goal) %>
+        <% if goal.user_id == current_user.id %>
+          <%= button_to "Delete", goal_url(goal), method: :delete %>
+        <% end %>
+    <% end  %>
   </li>
 <% end %>
 </ul>
+<br>
+<br>
+<%= link_to "New Goal", new_goal_url %>

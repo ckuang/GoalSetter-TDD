@@ -1,5 +1,7 @@
 class GoalsController < ApplicationController
 
+  before_action :require_signed_in
+
   def new
 
   end
@@ -30,6 +32,9 @@ class GoalsController < ApplicationController
   end
 
   def destroy
+    @goal = Goal.find(params[:id])
+    @goal.destroy
+    render :index
   end
 
   private
